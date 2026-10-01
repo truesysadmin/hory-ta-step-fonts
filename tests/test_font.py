@@ -49,8 +49,17 @@ def test_ukrainian_coverage(font):
 
 def test_punctuation_and_space(font):
     cmap = font.getBestCmap()
-    for ch in " .,!?-:'’":
+    for ch in " .,!?-:;…—–()«»'’":
         assert ord(ch) in cmap, f'Немає гліфа для {ch!r}'
+
+
+def test_digits_coverage(font):
+    cmap = font.getBestCmap()
+    glyf = font['glyf']
+    for ch in '0123456789':
+        assert ord(ch) in cmap, f'Немає гліфа для цифри {ch}'
+        assert glyf[cmap[ord(ch)]].numberOfContours > 0, \
+            f'Порожній контур для цифри {ch}'
 
 
 def test_ligatures_present(font):

@@ -27,9 +27,15 @@ CONS_NAMES = {
 }
 VOW_NAMES = {'а': 'a', 'о': 'o', 'у': 'u', 'е': 'e', 'и': 'y', 'і': 'i'}
 YOT = (('я', 'ya', 'а'), ('ю', 'yu', 'у'), ('є', 'ye', 'е'), ('ї', 'yi', 'і'))
+DIGIT_NAMES = {'0': 'zero', '1': 'one', '2': 'two', '3': 'three',
+               '4': 'four', '5': 'five', '6': 'six', '7': 'seven',
+               '8': 'eight', '9': 'nine'}
 PUNCT_NAMES = {'.': 'period', ',': 'comma', '!': 'exclam', '?': 'question',
-               '-': 'hyphen', ':': 'colon'}
-NARROW = {'period', 'comma', 'apostrophe', 'colon'}
+               '-': 'hyphen', ':': 'colon', ';': 'semicolon',
+               '…': 'ellipsis', '—': 'emdash', '–': 'endash',
+               '(': 'parenleft', ')': 'parenright',
+               '«': 'guillemetleft', '»': 'guillemetright'}
+NARROW = {'period', 'comma', 'apostrophe', 'colon', 'semicolon'}
 
 def make_fea(fam):
     """OpenType-фічі: лігатури, абугідні заміни (calt) та якорі (mark).
@@ -117,7 +123,8 @@ def build_style(fam, gset, style_name, cfg, out_dir):
         for c in codes:
             cmap[ord(c)] = name
 
-    cons, vow, soft, punct = gset['cons'], gset['vow'], gset['soft'], gset['punct']
+    cons, vow, soft = gset['cons'], gset['vow'], gset['soft']
+    dig, punct = gset['dig'], gset['punct']
     for ch, nm in CONS_NAMES.items():
         add(nm, [(cons[ch], 16, r_main)], (ch, ch.upper()))
     for ch, nm in VOW_NAMES.items():
@@ -131,6 +138,10 @@ def build_style(fam, gset, style_name, cfg, out_dir):
     for ch, nm in VOW_NAMES.items():
         add(f'{nm}.mark', [(vow[ch], 0, r_mark)])
     add('soft.mark', [(soft, 66, r_mark)])
+    # Цифри-колосся: 0 — зерно, 1..4 — стебло з зернами,
+    # 5 — схилений колос, 6..9 — схилений колос із зернами
+    for ch, nm in DIGIT_NAMES.items():
+        add(nm, [(dig[ch], 16, r_main)], (ch,))
     for ch, nm in PUNCT_NAMES.items():
         add(nm, [(punct[ch], 16, r_mark)], (ch,))
     add('apostrophe', [(punct["'"], 16, r_mark)])
