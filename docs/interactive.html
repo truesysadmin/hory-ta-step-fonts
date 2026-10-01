@@ -127,7 +127,7 @@ code{background:#1A261F;border:1px solid var(--line);border-radius:5px;padding:1
 
   <div class="demo">
     <label for="inp" style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--sage)">Введіть текст українською</label>
-    <textarea id="inp" spellcheck="false">Реве та стогне Дніпр широкий, сердитий вітер завива.</textarea>
+    <textarea id="inp" spellcheck="false">Реве та стогне Дніпр широкий, сердитий вітер завива. Рік 1847 — «Кобзар»; 25 дум…</textarea>
     <div class="modes" role="group" aria-label="Режим письма">
       <button id="btnH" aria-pressed="true">🌾 Степ — горизонтально</button>
       <button id="btnV" aria-pressed="false">⛰ Гори — вертикально</button>
@@ -169,6 +169,12 @@ code{background:#1A261F;border:1px solid var(--line);border-radius:5px;padding:1
 </section>
 
 <section>
+  <h2>Цифри — колосся</h2>
+  <p class="sub">Степова лічба: 0 — зерно-коло, 1–4 — стебло, на якому зерна чергуються праворуч і ліворуч, 5 — повний колос схиляє верхівку, 6–9 — схилений колос із зернами.</p>
+  <div class="grid" id="digGrid"></div>
+</section>
+
+<section>
   <h2>Правила</h2>
   <div class="rules">
     <div class="rule">
@@ -190,6 +196,11 @@ code{background:#1A261F;border:1px solid var(--line);border-radius:5px;padding:1
       <h3>Лігатури</h3>
       <p><code>щ</code> — лігатура ш+ч: знак ш із хвостом-розчерком; <code>дж</code> і <code>дз</code> — дзвінкі дуги з печаттю африкати.</p>
       <div class="ex" data-ex="дощ"></div>
+    </div>
+    <div class="rule">
+      <h3>Числа — снопи</h3>
+      <p>Зерно за зерном: <code>2</code> — два зерна на стеблі, <code>7</code> — схилений колос і ще два. Крапка — зернятко, лапки — крила вітру.</p>
+      <div class="ex" data-ex="1847"></div>
     </div>
   </div>
 </section>
@@ -239,15 +250,46 @@ const CONS = {
 };
 /* Голосні — знаки-зорі над горою, поле 40×14 */
 const VOW = {
- 'а':"M12 12 Q19 2 28 5",
- 'о':"M25 4 Q14 3 15 9 Q16 14 22 12 Q28 10 25 4",
- 'у':"M14 3 Q23 3 22 12",
- 'е':"M10 9 Q15 2 20 8 Q25 14 30 7",
- 'и':"M13 6 Q15 6 15 8 Q15 10 13 10 Q11 10 11 8 Q11 6 13 6 M27 6 Q29 6 29 8 Q29 10 27 10 Q25 10 25 8 Q25 6 27 6",
- 'і':"M20 5 Q22 5 22 8 Q22 11 20 11 Q18 11 18 8 Q18 5 20 5"
+ "а":"M12 12 Q19 2 28 5",
+ "о":"M25 4 Q14 3 15 9 Q16 14 22 12 Q28 10 25 4",
+ "у":"M14 3 Q23 3 22 12",
+ "е":"M10 9 Q15 2 20 8 Q25 14 30 7",
+ "и":"M13 6 Q15 6 15 8 Q15 10 13 10 Q11 10 11 8 Q11 6 13 6 M27 6 Q29 6 29 8 Q29 10 27 10 Q25 10 25 8 Q25 6 27 6",
+ "і":"M20 5 Q22 5 22 8 Q22 11 20 11 Q18 11 18 8 Q18 5 20 5"
 };
 /* М'якість — завиток вітру під знаком, поле 40×12 */
 const SOFT = "M13 3 Q17 11 23 9 Q29 7 28 2 Q27 6 31 7";
+/* Цифри — лічба колоссям, зона гори */
+const DIG = {
+ "0":"M22 12 Q11 14 12 26 Q13 40 21 40 Q29 38 28 25 Q27 14 22 12",
+ "1":"M20 8 Q18 25 20 42 M20 16 Q27 17 28 22",
+ "2":"M20 8 Q18 25 20 42 M20 16 Q27 17 28 22 M20 23 Q13 24 12 28",
+ "3":"M20 8 Q18 25 20 42 M20 16 Q27 17 28 22 M20 23 Q13 24 12 28 M20 30 Q27 31 28 36",
+ "4":"M20 8 Q18 25 20 42 M20 16 Q27 17 28 22 M20 23 Q13 24 12 28 M20 30 Q27 31 28 36 M20 37 Q13 38 12 42",
+ "5":"M20 42 Q18 26 20 14 Q21 7 29 10",
+ "6":"M20 42 Q18 26 20 14 Q21 7 29 10 M20 17 Q27 18 28 23",
+ "7":"M20 42 Q18 26 20 14 Q21 7 29 10 M20 17 Q27 18 28 23 M20 24 Q13 25 12 29",
+ "8":"M20 42 Q18 26 20 14 Q21 7 29 10 M20 17 Q27 18 28 23 M20 24 Q13 25 12 29 M20 31 Q27 32 28 37",
+ "9":"M20 42 Q18 26 20 14 Q21 7 29 10 M20 17 Q27 18 28 23 M20 24 Q13 25 12 29 M20 31 Q27 32 28 37 M20 38 Q13 39 12 43"
+};
+/* Пунктуація — зернятка й знаки поля */
+const PUNCT = {
+ ".":"M20 43 Q22 43 22 45 Q22 47 20 47 Q18 47 18 45 Q18 43 20 43",
+ ",":"M21 42 Q22 49 16 52",
+ "!":"M20 8 Q22 20 20 34 M20 43 Q22 43 22 45 Q22 47 20 47 Q18 47 18 45 Q18 43 20 43",
+ "?":"M13 14 Q12 5 20 5 Q28 6 27 13 Q26 19 21 21 Q20 23 20 27 M20 43 Q22 43 22 45 Q22 47 20 47 Q18 47 18 45 Q18 43 20 43",
+ "-":"M12 27 Q20 24 28 27",
+ ":":"M20 20 Q22 20 22 22 Q22 24 20 24 Q18 24 18 22 Q18 20 20 20 M20 43 Q22 43 22 45 Q22 47 20 47 Q18 47 18 45 Q18 43 20 43",
+ ";":"M20 20 Q22 20 22 22 Q22 24 20 24 Q18 24 18 22 Q18 20 20 20 M21 42 Q22 49 16 52",
+ "…":"M10 44 Q12 44 12 46 Q12 48 10 48 Q8 48 8 46 Q8 44 10 44 M20 44 Q22 44 22 46 Q22 48 20 48 Q18 48 18 46 Q18 44 20 44 M30 44 Q32 44 32 46 Q32 48 30 48 Q28 48 28 46 Q28 44 30 44",
+ "—":"M6 27 Q20 24 34 27",
+ "–":"M10 27 Q20 25 30 27",
+ "(":"M25 6 Q16 26 25 46",
+ ")":"M15 6 Q24 26 15 46",
+ "«":"M21 18 Q13 23 13 27 Q13 31 21 36 M29 18 Q21 23 21 27 Q21 31 29 36",
+ "»":"M19 18 Q27 23 27 27 Q27 31 19 36 M11 18 Q19 23 19 27 Q19 31 11 36",
+ "'":"M20 6 Q20 12 17 14"
+};
 
 /* ============ ДРУКОВАНИЙ СТИЛЬ ============ */
 /* Та сама фонетична логіка, але геометрія: прямі стебла з засічками,
@@ -286,18 +328,47 @@ const CONS_P = {
  '_':"M7 33 Q20 21 33 33" /* курган-носій */
 };
 const VOW_P = {
- 'а':"M11 10 Q20 2 29 6",
- 'о':"M20 3 Q26 3 26 8 Q26 13 20 13 Q14 13 14 8 Q14 3 20 3",
- 'у':"M21 2 Q18 7 19 12",
- 'е':"M10 8 L15 3 L20 8 L25 3 L30 8",
- 'и':"M13 6 Q15 6 15 8 Q15 10 13 10 Q11 10 11 8 Q11 6 13 6 M27 6 Q29 6 29 8 Q29 10 27 10 Q25 10 25 8 Q25 6 27 6",
- 'і':"M20 5 Q22 5 22 8 Q22 11 20 11 Q18 11 18 8 Q18 5 20 5"
+ "а":"M11 10 Q20 2 29 6",
+ "о":"M20 3 Q26 3 26 8 Q26 13 20 13 Q14 13 14 8 Q14 3 20 3",
+ "у":"M21 2 Q18 7 19 12",
+ "е":"M10 8 L15 3 L20 8 L25 3 L30 8",
+ "и":"M13 6 Q15 6 15 8 Q15 10 13 10 Q11 10 11 8 Q11 6 13 6 M27 6 Q29 6 29 8 Q29 10 27 10 Q25 10 25 8 Q25 6 27 6",
+ "і":"M20 5 Q22 5 22 8 Q22 11 20 11 Q18 11 18 8 Q18 5 20 5"
 };
 const SOFT_P = "M11 4 Q16 10 21 6 Q25 3 29 6";
+const DIG_P = {
+ "0":"M20 12 Q28 12 28 26 Q28 40 20 40 Q12 40 12 26 Q12 12 20 12",
+ "1":"M20 8 V42 M20 16 L28 21",
+ "2":"M20 8 V42 M20 16 L28 21 M20 23 L12 28",
+ "3":"M20 8 V42 M20 16 L28 21 M20 23 L12 28 M20 30 L28 35",
+ "4":"M20 8 V42 M20 16 L28 21 M20 23 L12 28 M20 30 L28 35 M20 37 L12 42",
+ "5":"M20 42 V16 Q20 7 29 10",
+ "6":"M20 42 V16 Q20 7 29 10 M20 17 L28 22",
+ "7":"M20 42 V16 Q20 7 29 10 M20 17 L28 22 M20 24 L12 29",
+ "8":"M20 42 V16 Q20 7 29 10 M20 17 L28 22 M20 24 L12 29 M20 31 L28 36",
+ "9":"M20 42 V16 Q20 7 29 10 M20 17 L28 22 M20 24 L12 29 M20 31 L28 36 M20 38 L12 43"
+};
+const PUNCT_P = {
+ ".":"M20 42 L22 45 L20 48 L18 45 L20 42",
+ ",":"M21 42 Q21 49 16 52",
+ "!":"M20 8 V34 M20 42 L22 45 L20 48 L18 45 L20 42",
+ "?":"M13 14 Q13 6 21 6 Q28 6 28 13 Q28 20 21 22 V28 M20 42 L22 45 L20 48 L18 45 L20 42",
+ "-":"M12 26 H28",
+ ":":"M20 20 L22 23 L20 26 L18 23 L20 20 M20 42 L22 45 L20 48 L18 45 L20 42",
+ ";":"M20 20 L22 23 L20 26 L18 23 L20 20 M21 42 Q21 49 16 52",
+ "…":"M10 43 L12 45 L10 47 L8 45 L10 43 M20 43 L22 45 L20 47 L18 45 L20 43 M30 43 L32 45 L30 47 L28 45 L30 43",
+ "—":"M6 26 H34",
+ "–":"M10 26 H30",
+ "(":"M25 6 Q17 26 25 46",
+ ")":"M15 6 Q23 26 15 46",
+ "«":"M21 18 L13 27 L21 36 M29 18 L21 27 L29 36",
+ "»":"M19 18 L27 27 L19 36 M11 18 L19 27 L11 36",
+ "'":"M20 6 Q20 12 17 14"
+};
 
 const STYLES = {
- hand: {cons:CONS, vow:VOW, soft:SOFT, cap:'round', w:'2.7', wv:'2.3', ws:'2.1'},
- print:{cons:CONS_P, vow:VOW_P, soft:SOFT_P, cap:'butt', w:'3.1', wv:'2.6', ws:'2.6'}
+ hand: {cons:CONS, vow:VOW, soft:SOFT, dig:DIG, punct:PUNCT, cap:'round', w:'2.7', wv:'2.3', ws:'2.1'},
+ print:{cons:CONS_P, vow:VOW_P, soft:SOFT_P, dig:DIG_P, punct:PUNCT_P, cap:'butt', w:'3.1', wv:'2.6', ws:'2.6'}
 };
 let styleMode = 'hand';
 
@@ -327,6 +398,7 @@ function tokenize(text){
     if(VOWELS.includes(ch)){ units.push({c:'_', v:ch, soft:false}); i++; continue; }
     if(YOT[ch]){ units.push({c:'й', v:YOT[ch], soft:false}); i++; continue; }
     if(ch === 'ї'){ units.push({c:'й', v:'і', soft:false}); i++; continue; }
+    if('0123456789'.includes(ch)){ units.push({dig:ch}); i++; continue; }
     if('.,!?;:—–-…()«»"'.includes(ch)){ units.push({punct:ch}); i++; continue; }
     i++;
   }
@@ -353,6 +425,8 @@ function unitGroup(u, x, y, animate, delay){
     if(animate) p.style.animationDelay = (delay*45)+'ms';
     g.appendChild(p);
   };
+  if(u.dig){ mk(S.dig[u.dig], 16); return g; }
+  if(u.punct){ mk(S.punct[u.punct], 16, S.wv); return g; }
   if(u.v) mk(S.vow[u.v], 0, S.wv);
   mk(S.cons[u.c], 16);
   if(u.soft) mk(S.soft, 66, S.ws);
@@ -373,10 +447,16 @@ function render(){
       if(u.br || (x > wrapW - CW)){ y += CH + 10; x = 4; if(u.br) return; }
       if(u.sp){ x += 22; return; }
       if(u.punct){
-        const t = document.createElementNS(NS,'text');
-        t.setAttribute('x', x); t.setAttribute('y', y + 54);
-        t.setAttribute('fill','currentColor'); t.setAttribute('font-size','22');
-        t.textContent = u.punct; svg.appendChild(t); x += 18; return;
+        if(STYLES[styleMode].punct[u.punct]){
+          svg.appendChild(unitGroup(u, x, y, true, delay++));
+          x += ".,:;'".includes(u.punct) ? 24 : CW; maxX = Math.max(maxX, x);
+        } else {
+          const t = document.createElementNS(NS,'text');
+          t.setAttribute('x', x); t.setAttribute('y', y + 54);
+          t.setAttribute('fill','currentColor'); t.setAttribute('font-size','22');
+          t.textContent = u.punct; svg.appendChild(t); x += 18;
+        }
+        return;
       }
       svg.appendChild(unitGroup(u, x, y, true, delay++));
       x += CW; maxX = Math.max(maxX, x);
@@ -491,12 +571,21 @@ function buildTables(){
     const l = document.createElement('div'); l.className='lbl'; l.textContent = v; cell.appendChild(l);
     vowGrid.appendChild(cell);
   });
+  const digGrid = document.getElementById('digGrid');
+  digGrid.innerHTML = '';
+  Object.keys(DIG).forEach(k => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.appendChild(miniSVG({dig:k}, .82));
+    const l = document.createElement('div'); l.className='lbl'; l.textContent = k; cell.appendChild(l);
+    digGrid.appendChild(cell);
+  });
   document.querySelectorAll('.ex').forEach(el => {
     el.innerHTML = '';
     const word = el.dataset.ex;
     const svg = document.createElementNS(NS,'svg');
     svg.classList.add('glyph');
-    const units = tokenize(word).filter(u => u.c);
+    const units = tokenize(word).filter(u => u.c || u.dig);
     svg.setAttribute('width', units.length*40 + 8); svg.setAttribute('height', 74);
     svg.setAttribute('viewBox', `0 0 ${units.length*46 + 8} 84`);
     units.forEach((u,i) => svg.appendChild(unitGroup(u, 4 + i*46, 0, false, 0)));

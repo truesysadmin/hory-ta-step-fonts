@@ -1,4 +1,4 @@
-.PHONY: setup build test preview clean all
+.PHONY: setup build test preview sync clean all
 
 # Якщо є локальне віртуальне середовище .venv — використовуємо його,
 # інакше системний python3.
@@ -19,6 +19,9 @@ test:
 
 preview:
 	$(PY) tools/preview.py
+
+sync:
+	$(PY) tools/sync.py
 
 clean:
 	rm -rf fonts/*.ttf docs/preview-*.png
