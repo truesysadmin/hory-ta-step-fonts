@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Гори та Степ — шрифтова майстерня казкової абугіди</title>
+<meta name="description" content="Фонетична абугіда для української мови: п'ять накреслень, цифри-колосся, пунктуація степу. Знак не малює літеру — він кодує звук.">
+<meta property="og:title" content="Гори та Степ — казкова абугіда української мови">
+<meta property="og:description" content="Шрифтова майстерня конскрипту: живе демо, правила письма, п'ять накреслень.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛰</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;0,700;1,500;1,600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{
+  --night:#1B2A23;
+  --moss:#24352C;
+  --ivory:#EDE4CE;
+  --sage:#93A98F;
+  --gold:#D3AE62;
+  --line:#3A4C40;
+}
+/* Живі шрифти: на Pages лежать у fonts/, при локальному перегляді — у ../fonts/ */
+@font-face{font-family:'HTS Drukovanyi';src:url('fonts/HoryTaStep-Drukovanyi.ttf'),url('../fonts/HoryTaStep-Drukovanyi.ttf');font-display:swap}
+@font-face{font-family:'HTS Rukopysnyi';src:url('fonts/HoryTaStep-Rukopysnyi.ttf'),url('../fonts/HoryTaStep-Rukopysnyi.ttf');font-display:swap}
+@font-face{font-family:'HTS Karbovanyi';src:url('fonts/HoryTaStep-Karbovanyi.ttf'),url('../fonts/HoryTaStep-Karbovanyi.ttf');font-display:swap}
+@font-face{font-family:'HTS Drukovanyi';font-weight:700;src:url('fonts/HoryTaStep-DrukovanyiZhyrnyi.ttf'),url('../fonts/HoryTaStep-DrukovanyiZhyrnyi.ttf');font-display:swap}
+@font-face{font-family:'HTS Rukopysnyi';font-weight:700;src:url('fonts/HoryTaStep-RukopysnyiZhyrnyi.ttf'),url('../fonts/HoryTaStep-RukopysnyiZhyrnyi.ttf');font-display:swap}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{
+  background:
+    radial-gradient(1100px 500px at 75% -100px, #2B4033 0%, transparent 60%),
+    radial-gradient(800px 600px at -10% 40%, #223528 0%, transparent 55%),
+    var(--night);
+  color:var(--ivory);
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:17px;line-height:1.65;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+a{color:var(--gold)}
+header{padding:72px 0 24px;text-align:center}
+.eyebrow{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--sage);margin-bottom:16px}
+.eyebrow::before{content:"✦  ";color:var(--gold)}
+h1{
+  font-family:'Cormorant',serif;font-weight:600;font-style:italic;
+  font-size:clamp(42px,8vw,76px);line-height:1.05;
+}
+h1 .accent{color:var(--gold);font-style:normal;font-weight:500}
+.lede{max-width:660px;margin:20px auto 0;color:var(--sage)}
+.hero-script{
+  font-family:'HTS Rukopysnyi';font-size:clamp(34px,6vw,58px);
+  color:var(--gold);margin:40px auto 6px;line-height:1.5;
+  text-shadow:0 0 18px rgba(211,174,98,.35);
+}
+.hero-cap{font-size:14px;color:var(--sage);font-style:italic}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.cta a{
+  text-decoration:none;font-weight:600;font-size:15px;
+  border-radius:999px;padding:11px 24px;border:1px solid var(--line);color:var(--ivory);
+}
+.cta a.primary{background:var(--gold);color:#22301F;border-color:var(--gold)}
+.cta a:hover{border-color:var(--gold)}
+h2{
+  font-family:'Cormorant',serif;font-weight:600;font-style:italic;
+  font-size:clamp(28px,4vw,38px);margin-bottom:8px;
+}
+h2::after{content:"  ✦";color:var(--gold);font-size:.55em;vertical-align:middle}
+section{padding:48px 0}
+.sub{color:var(--sage);margin-bottom:24px;max-width:720px}
+.card{
+  background:linear-gradient(180deg,#263A2E 0%,var(--moss) 100%);
+  border:1px solid var(--line);border-radius:20px;padding:26px;
+  box-shadow:0 18px 50px rgba(0,0,0,.35);
+}
+
+/* --- живе демо --- */
+#demo textarea{
+  width:100%;min-height:64px;resize:vertical;
+  font-family:'IBM Plex Sans',sans-serif;font-size:17px;color:var(--ivory);
+  background:transparent;border:none;border-bottom:1px solid var(--line);
+  padding:8px 4px;outline:none;
+}
+#demo textarea:focus{border-bottom-color:var(--gold)}
+.modes{display:flex;gap:8px;margin:18px 0 6px;flex-wrap:wrap;align-items:center}
+.modes button{
+  font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;
+  border:1px solid var(--line);background:transparent;color:var(--sage);
+  border-radius:999px;padding:7px 16px;cursor:pointer;
+}
+.modes button[aria-pressed="true"]{background:var(--gold);color:#22301F;border-color:var(--gold)}
+.modes button:focus-visible{outline:3px solid var(--ivory);outline-offset:2px}
+#out{
+  margin-top:14px;padding:18px 6px 6px;min-height:100px;
+  font-size:44px;line-height:1.6;color:var(--gold);word-wrap:break-word;
+  text-shadow:0 0 10px rgba(211,174,98,.3);
+}
+#out.f-druk{font-family:'HTS Drukovanyi'}
+#out.f-ruko{font-family:'HTS Rukopysnyi'}
+#out.f-karb{font-family:'HTS Karbovanyi'}
+#out.bold{font-weight:700}
+.hint{font-size:13px;color:var(--sage)}
+
+/* --- логіка знаків --- */
+.logic{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:760px){.logic{grid-template-columns:1fr 1fr}}
+.logic .row{
+  background:var(--moss);border:1px solid var(--line);border-radius:14px;
+  padding:14px 18px;display:flex;align-items:center;gap:16px;
+}
+.logic .sign{
+  font-family:'HTS Drukovanyi';font-size:40px;color:var(--gold);
+  min-width:84px;text-align:center;flex-shrink:0;
+}
+.logic .what{font-size:15px;color:#CFC8B4}
+.logic .what b{color:var(--ivory)}
+
+/* --- правила абугіди --- */
+.rules{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:760px){.rules{grid-template-columns:1fr 1fr}}
+.rule{background:var(--moss);border:1px solid var(--line);border-radius:16px;padding:22px}
+.rule h3{font-family:'Cormorant',serif;font-style:italic;font-weight:600;font-size:22px;margin-bottom:8px}
+.rule p{font-size:15px;color:#CFC8B4}
+.rule .ex{font-family:'HTS Drukovanyi';font-size:46px;color:var(--gold);margin-top:14px;line-height:1.4}
+.rule .cap{font-size:13px;color:var(--sage);font-style:italic}
+
+/* --- стилі --- */
+.styles{display:grid;grid-template-columns:1fr;gap:14px}
+.style-card{background:var(--moss);border:1px solid var(--line);border-radius:16px;padding:20px 24px}
+.style-card .name{font-family:'Cormorant',serif;font-style:italic;font-weight:600;font-size:20px}
+.style-card .name small{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-size:13px;color:var(--sage);margin-left:10px}
+.style-card .line{font-size:40px;color:var(--gold);margin-top:8px;line-height:1.5}
+.s-druk .line{font-family:'HTS Drukovanyi'}
+.s-ruko .line{font-family:'HTS Rukopysnyi'}
+.s-karb .line{font-family:'HTS Karbovanyi'}
+.s-drukz .line{font-family:'HTS Drukovanyi';font-weight:700}
+.s-rukoz .line{font-family:'HTS Rukopysnyi';font-weight:700}
+
+/* --- цифри й пунктуація --- */
+.bigrow{
+  font-family:'HTS Drukovanyi';font-size:56px;color:var(--gold);
+  line-height:1.4;letter-spacing:.06em;margin:10px 0 4px;
+  text-shadow:0 0 12px rgba(211,174,98,.3);overflow-x:auto;white-space:nowrap;
+}
+.plist{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.plist .p{
+  background:var(--moss);border:1px solid var(--line);border-radius:14px;
+  padding:12px;text-align:center;
+}
+.plist .p .g{font-family:'HTS Drukovanyi';font-size:38px;color:var(--gold);line-height:1.3}
+.plist .p .n{font-size:13px;color:var(--sage);font-style:italic}
+
+/* --- завантаження --- */
+.dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.dl a{
+  display:block;text-decoration:none;background:var(--moss);
+  border:1px solid var(--line);border-radius:14px;padding:16px 18px;
+}
+.dl a:hover{border-color:var(--gold)}
+.dl .fn{font-weight:600;color:var(--ivory);font-size:15px}
+.dl .ft{font-size:13px;color:var(--sage)}
+footer{padding:48px 0 72px;color:var(--sage);font-size:14px;text-align:center}
+footer::before{content:"✦ ✦ ✦";display:block;color:var(--gold);letter-spacing:.6em;margin-bottom:14px;opacity:.8}
+code{background:#1A261F;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:14px;color:var(--ivory)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Конскрипт · шрифтова майстерня · казкова абугіда для української мови</div>
+  <h1><span class="accent">Гори</span> та <em>Степ</em></h1>
+  <p class="lede">Письмо старого краю, що не наслідує жодну людську абетку.
+  Знак не малює літеру — він кодує звук: форма народжується з фонетики,
+  як гілки одного дерева. Голосні — зорі над горою, м'якість — вітер під нею.</p>
+  <div class="hero-script">Реве та стогне Дніпр широкий</div>
+  <div class="hero-cap">— рядок Шевченка, записаний «Горами та Степом» (рукописне накреслення)</div>
+  <div class="cta">
+    <a class="primary" href="#demo">Спробувати наживо</a>
+    <a href="interactive.html">Інтерактивний довідник</a>
+    <a href="https://github.com/truesysadmin/hory-ta-step-fonts">GitHub</a>
+  </div>
+</header>
+
+<section id="demo">
+  <h2>Живе демо</h2>
+  <p class="sub">Це не картинка — справжні шрифти працюють просто у вашому браузері.
+  Абугідні перетворення виконує OpenType: голосна сідає зорею над приголосним,
+  м'якість в'ється вітром під ним. Наберіть щось українською.</p>
+  <div class="card">
+    <textarea id="inp" spellcheck="false">Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів! Рік 1847 — «Кобзар»; 25 дум…</textarea>
+    <div class="modes" role="group" aria-label="Накреслення">
+      <button data-f="f-druk" aria-pressed="true">🖨 Друкований</button>
+      <button data-f="f-ruko" aria-pressed="false">✒ Рукописний</button>
+      <button data-f="f-karb" aria-pressed="false">🪓 Карбований</button>
+      <button id="btnBold" aria-pressed="false">Жирний</button>
+    </div>
+    <div id="out" class="f-druk">Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів! Рік 1847 — «Кобзар»; 25 дум…</div>
+    <div class="hint">Потрібен шейпер з OpenType (усі сучасні браузери). Карбований не має жирного — кнопка діє на друкований і рукописний.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Звук стає формою</h2>
+  <p class="sub">Кожен приголосний — «гора»: складається з ознак звуку.
+  Прочитавши форму, можна вимовити знак, навіть бачачи його вперше.</p>
+  <div class="logic">
+    <div class="row"><div class="sign">т</div><div class="what"><b>Пряме стебло з засічкою-курганом</b> — проривний звук: т, д, п, б, к, ц…</div></div>
+    <div class="row"><div class="sign">с</div><div class="what"><b>Хвилясте стебло</b> — протяжний: с, з, ф, в, ш, ж, х…</div></div>
+    <div class="row"><div class="sign">п</div><div class="what"><b>Дуга праворуч</b> — губний: п, б, ф, в, м.</div></div>
+    <div class="row"><div class="sign">т</div><div class="what"><b>Дуга ліворуч</b> — зубний: т, д, с, з, н…</div></div>
+    <div class="row"><div class="sign">д</div><div class="what"><b>Закрита дуга-чаша</b> — дзвінкий: б, д, з, ґ, г. Відкрита — глухий.</div></div>
+    <div class="row"><div class="sign">к</div><div class="what"><b>Петля крізь стебло</b> — задньоязиковий: к, ґ, х, г.</div></div>
+    <div class="row"><div class="sign">м</div><div class="what"><b>Подвійна чаша</b> — носовий: м, н.</div></div>
+    <div class="row"><div class="sign">ц</div><div class="what"><b>Печать-риска внизу</b> — африката: ц, ч, дж, дз.</div></div>
+    <div class="row"><div class="sign">л</div><div class="what"><b>Вільний розчерк</b> — плавний: л, р.</div></div>
+    <div class="row"><div class="sign">й</div><div class="what"><b>Листок</b> — й; <b>курган</b> — носій для голосної без приголосного.</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Справжня абугіда</h2>
+  <p class="sub">Один склад — один знак. Це не транслітерація кирилиці,
+  а власна логіка письма, реалізована через OpenType <code>calt</code> + <code>mark</code>.</p>
+  <div class="rules">
+    <div class="rule">
+      <h3>Голосна — зоря над горою</h3>
+      <p>Після приголосного голосна стає легким знаком угорі.
+      На початку слова чи після голосної — сідає на курган.</p>
+      <div class="ex">та на ана</div>
+      <div class="cap">та · на · ана</div>
+    </div>
+    <div class="rule">
+      <h3>М'якість — вітер під знаком</h3>
+      <p>Замість м'якого знака під горою в'ється завиток вітру;
+      голосна при цьому лишається вгорі.</p>
+      <div class="ex">день тьох</div>
+      <div class="cap">день · тьох</div>
+    </div>
+    <div class="rule">
+      <h3>Йотовані — вітер і зоря</h3>
+      <p>Після приголосного <code>я ю є</code> = завиток + голосна.
+      На початку слова — листок-й зі знаком угорі. <code>ї</code> — завжди й+і.</p>
+      <div class="ex">ля яр моя</div>
+      <div class="cap">ля · яр · моя</div>
+    </div>
+    <div class="rule">
+      <h3>Апостроф і лігатури</h3>
+      <p>Апостроф розриває склад: <code>м'яч</code> = тверде м + листок.
+      <code>дж</code>, <code>дз</code> — злиті знаки з печаттю африкати.</p>
+      <div class="ex">м'яч джміль</div>
+      <div class="cap">м'яч · джміль</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>П'ять накреслень</h2>
+  <p class="sub">Гліфи описано штрихами, а не контурами: товщина, капи і геометрія
+  стилю задаються окремо, тож одна правка контуру оновлює всі накреслення.</p>
+  <div class="styles">
+    <div class="style-card s-druk">
+      <div class="name">Drukovanyi <small>друковане · прямі стебла, правильні дуги, засічки-кургани</small></div>
+      <div class="line">Сонце заходить, гори чорніють.</div>
+    </div>
+    <div class="style-card s-drukz">
+      <div class="name">Drukovanyi Zhyrnyi <small>жирне · компенсовані дуги, вага 700</small></div>
+      <div class="line">Сонце заходить, гори чорніють.</div>
+    </div>
+    <div class="style-card s-ruko">
+      <div class="name">Rukopysnyi <small>рукописне · розчерки-ніжки, каліграфічні дуги</small></div>
+      <div class="line">Сонце заходить, гори чорніють.</div>
+    </div>
+    <div class="style-card s-rukoz">
+      <div class="name">Rukopysnyi Zhyrnyi <small>жирне рукописне</small></div>
+      <div class="line">Сонце заходить, гори чорніють.</div>
+    </div>
+    <div class="style-card s-karb">
+      <div class="name">Karbovanyi <small>рубане · самі прямі лінії, мов карби сокирою на дереві чи камені</small></div>
+      <div class="line">Сонце заходить, гори чорніють.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Цифри — лічба колоссям</h2>
+  <p class="sub">Степова лічба: <b>0</b> — зерно-коло; <b>1–4</b> — стебло, на якому
+  зерна чергуються праворуч і ліворуч; <b>5</b> — повний колос схиляє верхівку;
+  <b>6–9</b> — схилений колос із зернами. Кількість зерен видно з одного погляду.</p>
+  <div class="card"><div class="bigrow">0 1 2 3 4 5 6 7 8 9</div></div>
+</section>
+
+<section>
+  <h2>Пунктуація — знаки степу</h2>
+  <p class="sub">Жодної запозиченої форми: розділові знаки виросли з того самого світу,
+  що й літери.</p>
+  <div class="plist">
+    <div class="p"><div class="g">.</div><div class="n">зерно, що впало в землю</div></div>
+    <div class="p"><div class="g">,</div><div class="n">стеблинка під вітром</div></div>
+    <div class="p"><div class="g">!</div><div class="n">блискавка над степом</div></div>
+    <div class="p"><div class="g">?</div><div class="n">вихор, що здіймає пил</div></div>
+    <div class="p"><div class="g">-</div><div class="n">місток</div></div>
+    <div class="p"><div class="g">–</div><div class="n">обрій</div></div>
+    <div class="p"><div class="g">—</div><div class="n">обрій із курганом</div></div>
+    <div class="p"><div class="g">…</div><div class="n">посів — зерна з жмені</div></div>
+    <div class="p"><div class="g">« »</div><div class="n">крила вітру</div></div>
+    <div class="p"><div class="g">( )</div><div class="n">схили гори</div></div>
+    <div class="p"><div class="g">: ;</div><div class="n">двозерня · зерно зі стеблинкою</div></div>
+    <div class="p"><div class="g">'</div><div class="n">вітерець</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Два способи письма</h2>
+  <p class="sub">«Степом» — рядком за обрій, як на цій сторінці. «Горами» — вертикально:
+  кожне слово здіймається колонкою, колонки читаються справа наліво, а слово, довше за
+  пасмо, перетікає далі через риску-місток. Вертикальний режим живе в
+  <a href="interactive.html">інтерактивному довіднику</a> — там-таки транслітератор,
+  повні таблиці знаків і анімоване письмо пером.</p>
+</section>
+
+<section>
+  <h2>Завантажити шрифти</h2>
+  <p class="sub">TTF з повною OpenType-логікою (<code>calt</code>, <code>liga</code>,
+  <code>mark</code>). Ліцензія — SIL Open Font License 1.1.
+  Свіжі збірки також у <a href="https://github.com/truesysadmin/hory-ta-step-fonts/releases">релізах на GitHub</a>.</p>
+  <div class="dl">
+    <a href="fonts/HoryTaStep-Drukovanyi.ttf" download><div class="fn">HoryTaStep-Drukovanyi</div><div class="ft">друковане · 400</div></a>
+    <a href="fonts/HoryTaStep-DrukovanyiZhyrnyi.ttf" download><div class="fn">HoryTaStep-DrukovanyiZhyrnyi</div><div class="ft">друковане · 700</div></a>
+    <a href="fonts/HoryTaStep-Rukopysnyi.ttf" download><div class="fn">HoryTaStep-Rukopysnyi</div><div class="ft">рукописне · 400</div></a>
+    <a href="fonts/HoryTaStep-RukopysnyiZhyrnyi.ttf" download><div class="fn">HoryTaStep-RukopysnyiZhyrnyi</div><div class="ft">рукописне · 700</div></a>
+    <a href="fonts/HoryTaStep-Karbovanyi.ttf" download><div class="fn">HoryTaStep-Karbovanyi</div><div class="ft">рубане · 400</div></a>
+  </div>
+</section>
+
+<footer>
+  Гори та Степ · шрифти й код — <a href="https://github.com/truesysadmin/hory-ta-step-fonts/blob/main/LICENSE">SIL OFL 1.1</a> ·
+  зібрано з <code>glyphs.json</code> штрих за штрихом
+</footer>
+
+</div>
+<script>
+const out = document.getElementById('out');
+const inp = document.getElementById('inp');
+inp.addEventListener('input', () => { out.textContent = inp.value || ' '; });
+const fbtns = [...document.querySelectorAll('.modes button[data-f]')];
+fbtns.forEach(b => b.onclick = () => {
+  fbtns.forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+  out.className = b.dataset.f + (out.classList.contains('bold') ? ' bold' : '');
+});
+const bB = document.getElementById('btnBold');
+bB.onclick = () => {
+  const on = bB.getAttribute('aria-pressed') !== 'true';
+  bB.setAttribute('aria-pressed', on ? 'true' : 'false');
+  out.classList.toggle('bold', on);
+};
+</script>
+</body>
+</html>
