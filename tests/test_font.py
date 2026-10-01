@@ -96,6 +96,13 @@ def test_marks_zero_width(font):
         assert hmtx[nm][0] == 0, f'Марка {nm} має ненульову ширину'
 
 
+def test_weight_class(ttf_path, font):
+    bold = 'Zhyrnyi' in ttf_path.stem
+    assert font['OS/2'].usWeightClass == (700 if bold else 400)
+    assert bool(font['head'].macStyle & 0x01) == bold
+    assert bool(font['OS/2'].fsSelection & 0x20) == bold
+
+
 def test_gdef_mark_classes(font):
     classdefs = font['GDEF'].table.GlyphClassDef.classDefs
     for nm in MARKS:

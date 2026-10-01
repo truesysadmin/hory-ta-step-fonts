@@ -193,8 +193,13 @@ def build_style(fam, gset, style_name, cfg, out_dir):
         'copyright': fam['copyright'],
         'licenseDescription': fam['license'],
     })
+    weight = cfg.get('weight', 400)
     fb.setupOS2(sTypoAscender=fam['ascent'], sTypoDescender=fam['descent'],
-                usWinAscent=fam['ascent'] + 50, usWinDescent=-fam['descent'] + 40)
+                usWinAscent=fam['ascent'] + 50, usWinDescent=-fam['descent'] + 40,
+                usWeightClass=weight)
+    if weight >= 600:
+        fb.font['head'].macStyle |= 0x01
+        fb.font['OS/2'].fsSelection = (fb.font['OS/2'].fsSelection & ~0x40) | 0x20
     fb.setupPost()
     addOpenTypeFeaturesFromString(fb.font, make_fea(fam))
 
@@ -203,13 +208,27 @@ def build_style(fam, gset, style_name, cfg, out_dir):
     print(f'  ✓ {out.relative_to(ROOT)} ({len(order)} гліфів)')
 
 
+def merge_set(base, overrides):
+    """Накладає часткові перевизначення контурів (компенсація жирних дуг)."""
+    merged = {}
+    for key, val in base.items():
+        if isinstance(val, dict):
+            merged[key] = {**val, **overrides.get(key, {})}
+        else:
+            merged[key] = overrides.get(key, val)
+    return merged
+
+
 def build_family(src_dir):
     fam = json.loads((src_dir / 'family.json').read_text(encoding='utf-8'))
     sets = json.loads((src_dir / 'glyphs.json').read_text(encoding='utf-8'))
     print(f'Гарнітура: {fam["family"]}')
     FONTS.mkdir(exist_ok=True)
     for style_name, cfg in fam['styles'].items():
-        build_style(fam, sets[cfg['set']], style_name, cfg, FONTS)
+        gset = sets[cfg['set']]
+        if 'overrides' in cfg:
+            gset = merge_set(gset, sets.get(cfg['overrides'], {}))
+        build_style(fam, gset, style_name, cfg, FONTS)
 
 
 def main():

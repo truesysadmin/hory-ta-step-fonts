@@ -1,7 +1,7 @@
 {
   "family": "Hory ta Step",
   "familyPs": "HoryTaStep",
-  "version": "0.6",
+  "version": "0.7",
   "copyright": "Конскрипт «Гори та Степ» — фонетична абугіда для української мови",
   "license": "SIL Open Font License 1.1",
   "upm": 1000,
@@ -16,13 +16,31 @@
       "set": "print",
       "cap": "butt",
       "strokeWidth": 3.1,
-      "markWidth": 2.6
+      "markWidth": 2.6,
+      "weight": 400
     },
     "Rukopysnyi": {
       "set": "hand",
       "cap": "round",
       "strokeWidth": 2.7,
-      "markWidth": 2.3
+      "markWidth": 2.3,
+      "weight": 400
+    },
+    "DrukovanyiZhyrnyi": {
+      "set": "print",
+      "overrides": "print-bold",
+      "cap": "butt",
+      "strokeWidth": 4.8,
+      "markWidth": 3.6,
+      "weight": 700
+    },
+    "RukopysnyiZhyrnyi": {
+      "set": "hand",
+      "overrides": "hand-bold",
+      "cap": "round",
+      "strokeWidth": 4.3,
+      "markWidth": 3.3,
+      "weight": 700
     }
   }
 }
