@@ -3,9 +3,9 @@
 Монорепозиторій для розробки шрифтів конскрипту **«Гори та Степ»** — фонетичної
 абугіди для української мови — та потенційно інших гарнітур.
 
-**🌐 Сайт-презентація:** <https://truesysadmin.github.io/hory-ta-step-fonts/> —
+**🌐 Сайт-презентація:** <https://hory-ta-step.github.io/> —
 живе демо шрифтів у браузері, всі правила письма, цифри-колосся, пунктуація
-степу і завантаження TTF. Там-таки [інтерактивний довідник](https://truesysadmin.github.io/hory-ta-step-fonts/interactive.html)
+степу і завантаження TTF. Там-таки [інтерактивний довідник](https://hory-ta-step.github.io/interactive.html)
 із транслітератором і вертикальним режимом «Гори». Сайт збирає й публікує
 GitHub Actions (`.github/workflows/pages.yml`) на кожен push у `main`.
 
@@ -16,7 +16,7 @@ GitHub Actions (`.github/workflows/pages.yml`) на кожен push у `main`.
 ## Швидкий старт
 
 ```bash
-git clone https://github.com/truesysadmin/hory-ta-step-fonts.git
+git clone https://github.com/hory-ta-step/hory-ta-step.github.io.git
 cd hory-ta-step-fonts
 make setup      # один раз: створює .venv і ставить залежності
 make            # build + test + preview
