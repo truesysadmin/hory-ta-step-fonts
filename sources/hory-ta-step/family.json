@@ -1,7 +1,7 @@
 {
   "family": "Hory ta Step",
   "familyPs": "HoryTaStep",
-  "version": "0.7",
+  "version": "0.8",
   "copyright": "Конскрипт «Гори та Степ» — фонетична абугіда для української мови",
   "license": "SIL Open Font License 1.1",
   "upm": 1000,
@@ -24,6 +24,13 @@
       "cap": "round",
       "strokeWidth": 2.7,
       "markWidth": 2.3,
+      "weight": 400
+    },
+    "Karbovanyi": {
+      "set": "karb",
+      "cap": "butt",
+      "strokeWidth": 3.4,
+      "markWidth": 2.8,
       "weight": 400
     },
     "DrukovanyiZhyrnyi": {

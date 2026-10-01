@@ -68,7 +68,8 @@ def replace_str(html, name, value):
 def main():
     sets = json.loads(GLYPHS.read_text(encoding='utf-8'))
     html = HTML.read_text(encoding='utf-8')
-    for suffix, gset in (('', sets['hand']), ('_P', sets['print'])):
+    for suffix, gset in (('', sets['hand']), ('_P', sets['print']),
+                         ('_K', sets['karb'])):
         html = replace_block(html, 'CONS' + suffix, emit_cons(gset))
         html = replace_block(html, 'VOW' + suffix, emit_map(gset['vow'], VOW_ORDER))
         html = replace_str(html, 'SOFT' + suffix, gset['soft'])
